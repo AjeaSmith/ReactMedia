@@ -17,7 +17,7 @@ const Singlefeed = () => {
                     src="https://images.unsplash.com/photo-1520065786657-b71a007dd8a5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=80"
                     alt=""
                   />
-                  <p className="ml-2 text-base font-medium">Jon Doe</p>
+                  <p className="ml-2 text-base text-green-500 font-medium">Jon Doe</p>
                 </a>
               </div>
               <div className="flex flex-row items-center">
@@ -60,7 +60,7 @@ const Singlefeed = () => {
                     <div className="-mr-1">
                       <input
                         type="submit"
-                        className="bg-white text-gray-700 font-medium py-1 px-4 border border-gray-400 rounded-lg tracking-wide mr-1 hover:bg-gray-100"
+                        className="bg-green-500 text-white font-medium py-1 px-4 border border-gray-400 rounded-lg tracking-wide mr-1 hover:bg-green-600"
                         value="Post Comment"
                       />
                     </div>
@@ -78,7 +78,7 @@ const Singlefeed = () => {
                   />
                   <div class="">
                     <div class="flex items-center justify-between">
-                      <h2 class="text-lg font-semibold text-gray-900">
+                      <h2 class="text-lg font-semibold text-green-500">
                         Brad Adams{" "}
                       </h2>
                       <small class="text-sm text-gray-700">22h ago</small>
