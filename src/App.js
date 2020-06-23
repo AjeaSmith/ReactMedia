@@ -18,7 +18,7 @@ function App() {
           <Route path="/signup" component={Signup} />
           <Route path="/login" component={Login} />
           <Route path="/create" component={Createfeed} />
-          <Route path="/newfeed/:id" component={Singlefeed} />
+          <Route path="/newsfeed/:id" component={Singlefeed} />
           <Route path="/profile/:id" component={Profile} />
         </Switch>
       </Router>

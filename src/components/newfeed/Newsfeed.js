@@ -15,7 +15,7 @@ const Newsfeed = () => {
         <div class="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
           <div class="mb-8">
             <p class="text-sm text-gray-600 flex items-center">
-              <Link to="/singlefeed/3">
+              <Link to="/newsfeed/3">
                 <i class="far fa-eye text-green-500"></i>
                 <span className="ml-2 text-green-500">View Feed</span>
               </Link>
