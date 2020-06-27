@@ -33,7 +33,7 @@ const Newsfeed = () => {
               alt="Avatar of Jonathan Reinink"
             />
             <div class="text-sm">
-              <p class="text-gray-900 leading-none">Jonathan Reinink</p>
+              <Link to="/profile/2" class="text-green-500 leading-none">Jonathan Reinink</Link>
               <p class="text-gray-600">Aug 18</p>
             </div>
           </div>
@@ -69,7 +69,7 @@ const Newsfeed = () => {
               alt="Avatar of Jonathan Reinink"
             />
             <div class="text-sm">
-              <p class="text-gray-900 leading-none">Jonathan Reinink</p>
+              <Link to="/profile/4" class="text-green-500 leading-none">Jonathan Reinink</Link>
               <p class="text-gray-600">Aug 18</p>
             </div>
           </div>
