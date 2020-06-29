@@ -55,7 +55,7 @@ const Signup = () => {
                   type="file"
                 />
               </div>
-
+              <h2 className="text-center text-4xl my-3">Sign up</h2>
               <div className="mb-5">
                 <label
                   htmlFor="username"
