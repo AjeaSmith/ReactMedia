@@ -1,6 +1,20 @@
-import React, { Fragment } from "react";
-
+import React, { Fragment, useState } from "react";
+import { useForm } from "react-hook-form";
 const Signup = () => {
+  const [value, setValue] = useState();
+  const { register, handleSubmit, errors } = useForm({ mode: "onBlur" });
+  const handleChange = e => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = e => {
+      setValue(e.target.result);
+    };
+    reader.readAsDataURL(file);
+  };
+  const onSubmit = data => {
+    console.log(data);
+  };
   return (
     <Fragment>
       <div className="bg-gray-200">
@@ -11,7 +25,8 @@ const Signup = () => {
                 <div className="mx-auto w-32 h-32 mb-2 border rounded-full relative bg-gray-100 mb-4 shadow-inset">
                   <img
                     id="image"
-                    className="object-cover w-full h-32 rounded-full"
+                    className="w-full h-32 rounded-full"
+                    src={value}
                   />
                 </div>
 
@@ -50,65 +65,141 @@ const Signup = () => {
                 <input
                   name="photo"
                   id="fileInput"
-                  accept="image/*"
                   className="hidden"
                   type="file"
+                  ref={register({
+                    required: { value: true, message: "Field is required" }
+                  })}
+                  onChange={handleChange}
                 />
+                {errors.photo && (
+                  <p class="text-red-500 text-xs italic mt-2 ml-2">
+                    {errors.photo.message}
+                  </p>
+                )}
               </div>
               <h2 className="text-center text-4xl my-3">Sign up</h2>
-              <div className="mb-5">
-                <label
-                  htmlFor="username"
-                  className="font-bold mb-1 text-gray-700 block"
-                >
-                  Username
-                </label>
-                <input
-                  type="text"
-                  className="w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium"
-                  placeholder="Enter your username..."
-                />
-              </div>
-
-              <div className="mb-5">
-                <label
-                  htmlFor="email"
-                  className="font-bold mb-1 text-gray-700 block"
-                >
-                  Email
-                </label>
-                <input
-                  type="email"
-                  className="w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium"
-                  placeholder="Enter your email address..."
-                />
-              </div>
-              <div className="mb-5">
-                <label
-                  htmlFor="DOB"
-                  className="font-bold mb-1 text-gray-700 block"
-                >
-                  DOB
-                </label>
-                <input
-                  type="date"
-                  className="w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium"
-                  placeholder="Enter your date of birth..."
-                />
-              </div>
-              <div className="mb-5">
-                <label
-                  htmlFor="password"
-                  className="font-bold mb-1 text-gray-700 block"
-                >
-                  Password
-                </label>
-                <input
-                  type="password"
-                  className="w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium"
-                  placeholder="**********"
-                />
-              </div>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="mb-5">
+                  <label
+                    htmlFor="username"
+                    className="font-bold mb-1 text-gray-700 block"
+                  >
+                    Username
+                  </label>
+                  <input
+                    name="username"
+                    type="text"
+                    className={
+                      errors.username
+                        ? "w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium border border-red-500"
+                        : "w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium"
+                    }
+                    placeholder="Enter your username..."
+                    ref={register({
+                      required: { value: true, message: "Field is required" },
+                      minLength: {
+                        value: 3,
+                        message: "Must be at least 3 characters long"
+                      }
+                    })}
+                  />
+                  {errors.username && (
+                    <p className="text-red-500 text-xs italic mt-2 ml-2">
+                      {errors.username.message}
+                    </p>
+                  )}
+                </div>
+                <div className="mb-5">
+                  <label
+                    htmlFor="email"
+                    className="font-bold mb-1 text-gray-700 block"
+                  >
+                    Email
+                  </label>
+                  <input
+                    name="email"
+                    type="email"
+                    className={
+                      errors.email
+                        ? "w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium border border-red-500"
+                        : "w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium"
+                    }
+                    placeholder="Enter your email address..."
+                    ref={register({
+                      required: { value: true, message: "Field is required" },
+                      pattern: {
+                        value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                        message: "Email is not valid"
+                      }
+                    })}
+                  />
+                  {errors.email && (
+                    <p className="text-red-500 text-xs italic mt-2 ml-2">
+                      {errors.email.message}
+                    </p>
+                  )}
+                </div>
+                <div className="mb-5">
+                  <label
+                    htmlFor="DOB"
+                    className="font-bold mb-1 text-gray-700 block"
+                  >
+                    DOB
+                  </label>
+                  <input
+                    name="DOB"
+                    type="date"
+                    className={
+                      errors.DOB
+                        ? "w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium border border-red-500"
+                        : "w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium"
+                    }
+                    placeholder="Enter your date of birth..."
+                    ref={register({
+                      required: { value: true, message: "Field is required" }
+                    })}
+                  />
+                  {errors.DOB && (
+                    <p className="text-red-500 text-xs italic mt-2 ml-2">
+                      {errors.DOB.message}
+                    </p>
+                  )}
+                </div>
+                <div className="mb-5">
+                  <label
+                    htmlFor="password"
+                    className="font-bold mb-1 text-gray-700 block"
+                  >
+                    Password
+                  </label>
+                  <input
+                    name="password"
+                    type="password"
+                    className={
+                      errors.password
+                        ? "w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium border border-red-500"
+                        : "w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium"
+                    }
+                    placeholder="**********"
+                    ref={register({
+                      required: { value: true, message: "Field is required" },
+                      minLength: {
+                        value: 8,
+                        message: "Must be 8 characters long"
+                      }
+                    })}
+                  />
+                  {errors.password && (
+                    <p className="text-red-500 text-xs italic mt-2 ml-2">
+                      {errors.password.message}
+                    </p>
+                  )}
+                </div>
+                <button className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4">
+                  Sign up
+                </button>
+              </form>
             </div>
           </div>
         </div>

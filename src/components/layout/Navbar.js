@@ -9,9 +9,12 @@ const Navbar = () => {
   return (
     <header className="bg-gray-900 sm:flex sm:justify-between sm:items-center sm:px-4 sm:py-3">
       <div className="flex items-center justify-between px-4 py-3 sm:p-0">
-        <div className="flex items-center">
-          <img className="h-8" src={logo} alt="react logo" />
-          <span className="text-white">Media</span>
+        <div>
+          <Link to="/" className="flex items-center">
+            {" "}
+            <img className="h-8" src={logo} alt="react logo" />
+            <span className="text-white">Media</span>
+          </Link>
         </div>
         <div className="sm:hidden">
           <button
