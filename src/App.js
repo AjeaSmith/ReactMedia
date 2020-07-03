@@ -1,6 +1,8 @@
 import React, { Fragment } from "react";
 import Navbar from "./components/layout/Navbar";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.min.css";
+import { ToastContainer } from "react-toastify";
 import Home from "./components/layout/Home";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
@@ -12,6 +14,7 @@ function App() {
   return (
     <Fragment>
       <Router>
+        <ToastContainer />
         <Navbar />
         <Switch>
           <Route path="/" exact component={Home} />
