@@ -1,10 +1,17 @@
 import React, { Fragment } from "react";
-
+import { useForm } from "react-hook-form";
 const Createfeed = () => {
+  const { register, handleSubmit, errors } = useForm({ mode: "onBlur" });
+  const onSubmit = data => {
+    console.log(data);
+  };
   return (
     <Fragment>
       <div className="w-full max-w-xl mx-auto mt-8">
-        <form className="bg-gray-100 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <form
+          className="bg-gray-100 shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <h3 className="mb-4 text-center text-2xl">Create Feed</h3>
           <div className="mb-4">
             <label
@@ -14,11 +21,24 @@ const Createfeed = () => {
               Image URL
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              name="image"
+              className={
+                errors.image
+                  ? "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline border border-red-500"
+                  : "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              }
               id="username"
               type="text"
               placeholder="EX: Any image from unsplash"
+              ref={register({
+                required: { value: true, message: "Field is required" }
+              })}
             />
+            {errors.image && (
+              <p className="text-red-500 text-xs italic mt-2 ml-2">
+                {errors.image.message}
+              </p>
+            )}
           </div>
           <div className="mb-6">
             <label
@@ -28,12 +48,25 @@ const Createfeed = () => {
               Content
             </label>
             <textarea
-              className="shadow appearance-none rounded border w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              name="content"
+              className={
+                errors.content
+                  ? "shadow appearance-none rounded border w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline border border-red-500"
+                  : "shadow appearance-none rounded border w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              }
               rows="8"
               id="content"
               type="text"
               placeholder="Write Your Message..."
+              ref={register({
+                required: { value: true, message: "Field is required" }
+              })}
             ></textarea>
+            {errors.content && (
+              <p className="text-red-500 text-xs italic mt-2 ml-2">
+                {errors.content.message}
+              </p>
+            )}
           </div>
           <div className="flex items-center justify-end">
             <button

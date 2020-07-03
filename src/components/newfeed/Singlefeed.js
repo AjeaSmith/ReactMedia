@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import CommentForm from "../comment/commentForm";
 
 const Singlefeed = () => {
   return (
@@ -17,7 +18,9 @@ const Singlefeed = () => {
                     src="https://images.unsplash.com/photo-1520065786657-b71a007dd8a5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=80"
                     alt=""
                   />
-                  <p className="ml-2 text-base text-green-500 font-medium">Jon Doe</p>
+                  <p className="ml-2 text-base text-green-500 font-medium">
+                    Jon Doe
+                  </p>
                 </a>
               </div>
               <div className="flex flex-row items-center">
@@ -45,29 +48,7 @@ const Singlefeed = () => {
         </div>
         <div className="w-full sm:w-1/2 px-6">
           <div class="divide-y divide-gray-400">
-            <div class="text-center py-2">
-              <form className="bg-white rounded-lg pt-2">
-                <div className="flex flex-wrap -mx-3 mb-6">
-                  <div className="w-full md:w-full px-3 mb-2 mt-2">
-                    <textarea
-                      className="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white"
-                      name="body"
-                      placeholder="Type Your Comment"
-                      required
-                    ></textarea>
-                  </div>
-                  <div className="w-full md:w-full flex items-start md:w-full px-3">
-                    <div className="-mr-1">
-                      <input
-                        type="submit"
-                        className="bg-green-500 text-white font-medium py-1 px-4 border border-gray-400 rounded-lg tracking-wide mr-1 hover:bg-green-600"
-                        value="Post Comment"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
+            <CommentForm />
             <div class="py-2">
               <div class="flex bg-white shadow-lg rounded-lg">
                 <div class="flex items-start px-4 py-6">
