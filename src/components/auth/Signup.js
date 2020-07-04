@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { signUpUser } from "../../Store/actions/user-actions";
 import { useForm } from "react-hook-form";
 import LoadingSpinner from "../spinner/LoadingSpinner";
-const Signup = ({ isloading, signup, autherror }) => {
+const Signup = ({ isloading, signup, singuperror }) => {
   const [value, setValue] = useState();
   const { register, handleSubmit, errors } = useForm({ mode: "onBlur" });
   const handleChange = e => {
@@ -145,9 +145,9 @@ const Signup = ({ isloading, signup, autherror }) => {
                         {errors.email.message}
                       </p>
                     )}
-                    {autherror && (
+                    {singuperror && (
                       <p className="text-red-500 text-xs italic mt-2 ml-2">
-                        {autherror}
+                        {singuperror}
                       </p>
                     )}
                   </div>
@@ -222,7 +222,7 @@ const Signup = ({ isloading, signup, autherror }) => {
 const mapStateToProps = state => {
   return {
     isloading: state.user.loading,
-    autherror: state.user.authError
+    singuperror: state.user.signupError
   };
 };
 const mapDispatchToProps = dispatch => {

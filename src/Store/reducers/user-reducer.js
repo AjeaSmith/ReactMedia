@@ -1,6 +1,7 @@
 const initialState = {
   loading: false,
-  authError: null
+  signupError: null,
+  loginError: null
 };
 
 const userReducer = (state = initialState, action) => {
@@ -15,11 +16,17 @@ const userReducer = (state = initialState, action) => {
         ...state,
         loading: false
       };
-    case "AUTHERROR":
+    case "LOGINERROR":
       return {
         ...state,
         loading: false,
-        authError: action.payload
+       loginError: action.payload
+      };
+    case "SIGNUPERROR":
+      return {
+        ...state,
+        loading: false,
+        signupError: action.payload
       };
     default:
       return state;
