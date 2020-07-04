@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import logo from "../../logo.svg";
+import { connect } from "react-redux";
+import { signOut } from "../../Store/actions/user-actions";
 import { Link } from "react-router-dom";
-const Navbar = () => {
+const Navbar = ({ signout }) => {
   const [open, setopen] = useState(false);
   const openMenu = () => {
     setopen(!open);
@@ -69,14 +71,19 @@ const Navbar = () => {
         >
           Welcome, Ajea
         </Link>
-        <Link
-          to="/signout"
+        <button
+          onClick={signout}
           className="mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-gray-800 sm:mt-0 sm:ml-2"
         >
           Signout
-        </Link>
+        </button>
       </nav>
     </header>
   );
 };
-export default Navbar;
+const mapDispatchToProps = dispatch => {
+  return {
+    signout: () => dispatch(signOut())
+  };
+};
+export default connect(null, mapDispatchToProps)(Navbar);
