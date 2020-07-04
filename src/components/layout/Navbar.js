@@ -3,11 +3,17 @@ import logo from "../../logo.svg";
 import { connect } from "react-redux";
 import { signOut } from "../../Store/actions/user-actions";
 import { Link } from "react-router-dom";
+import jwtdecode from "jwt-decode";
 const Navbar = ({ signout }) => {
   const [open, setopen] = useState(false);
   const openMenu = () => {
     setopen(!open);
   };
+  const token = localStorage.getItem("token");
+  let user;
+  if (token) {
+    user = jwtdecode(token);
+  }
   return (
     <header className="bg-gray-900 sm:flex sm:justify-between sm:items-center sm:px-4 sm:py-3">
       <div className="flex items-center justify-between px-4 py-3 sm:p-0">
@@ -47,36 +53,44 @@ const Navbar = ({ signout }) => {
             : "hidden px-2 pt-2 pb-4 sm:flex sm:p-0"
         }
       >
-        <Link
-          to="/login"
-          className="block px-2 py-1 text-white font-semibold rounded hover:bg-gray-800"
-        >
-          Login
-        </Link>
-        <Link
-          to="/signup"
-          className="mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-gray-800 sm:mt-0 sm:ml-2"
-        >
-          Sign up
-        </Link>
-        <Link
-          to="/create"
-          className="mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-gray-800 sm:mt-0 sm:ml-2"
-        >
-          +Add
-        </Link>
-        <Link
-          to="/profile/2"
-          className="mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-gray-800 sm:mt-0 sm:ml-2"
-        >
-          Welcome, Ajea
-        </Link>
-        <button
-          onClick={signout}
-          className="mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-gray-800 sm:mt-0 sm:ml-2"
-        >
-          Signout
-        </button>
+        {token ? (
+          <>
+            <Link
+              to="/create"
+              className="mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-gray-800 sm:mt-0 sm:ml-2"
+            >
+              <i class="fas fa-plus"></i>
+            </Link>
+            <Link
+              to="/profile/2"
+              className="mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-gray-800 sm:mt-0 sm:ml-2"
+            >
+              Welcome, {user.user.displayName}!
+            </Link>
+            <button
+              onClick={signout}
+              className="mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-gray-800 sm:mt-0 sm:ml-2"
+            >
+              Signout
+            </button>
+          </>
+        ) : (
+          <>
+            {" "}
+            <Link
+              to="/login"
+              className="block px-2 py-1 text-white font-semibold rounded hover:bg-gray-800"
+            >
+              Login
+            </Link>
+            <Link
+              to="/signup"
+              className="mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-gray-800 sm:mt-0 sm:ml-2"
+            >
+              Sign up
+            </Link>
+          </>
+        )}
       </nav>
     </header>
   );
