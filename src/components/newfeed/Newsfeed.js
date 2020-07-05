@@ -33,8 +33,12 @@ const Newsfeed = () => {
               alt="Avatar of Jonathan Reinink"
             />
             <div className="text-sm">
-              <Link to="/profile/2" className="text-green-500 leading-none">Jonathan Reinink</Link>
-              <p className="text-gray-600">Aug 18</p>
+              <Link to="/profile/2" className="text-green-500 leading-none">
+                Jonathan Reinink
+              </Link>
+              <p className="text-gray-600">
+                Aug 18 | <span>No Comments</span>
+              </p>
             </div>
           </div>
         </div>
@@ -69,8 +73,12 @@ const Newsfeed = () => {
               alt="Avatar of Jonathan Reinink"
             />
             <div className="text-sm">
-              <Link to="/profile/4" className="text-green-500 leading-none">Jonathan Reinink</Link>
-              <p className="text-gray-600">Aug 18</p>
+              <Link to="/profile/4" className="text-green-500 leading-none">
+                Jonathan Reinink
+              </Link>
+              <p className="text-gray-600">
+                Aug 18 | <span>No Comments</span>
+              </p>
             </div>
           </div>
         </div>

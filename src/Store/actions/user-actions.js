@@ -115,17 +115,15 @@ export const loginUser = data => {
 
 // Signout user
 export const signOut = () => {
-  return dispatch => {
-    const response = auth.signOut();
-    response
-      .then(() => {
-        localStorage.removeItem("token");
-      })
-      .then(() => {
-        window.location.href = "/";
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
+  const response = auth.signOut();
+  response
+    .then(() => {
+      localStorage.removeItem("token");
+    })
+    .then(() => {
+      window.location.href = "/";
+    })
+    .catch(err => {
+      console.log(err);
+    });
 };

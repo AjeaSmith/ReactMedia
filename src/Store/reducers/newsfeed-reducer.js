@@ -15,12 +15,6 @@ const newsfeedReducer = (state = initialState, action) => {
         ...state,
         loading: false
       };
-    case "AUTHERROR":
-      return {
-        ...state,
-        loading: false,
-        authError: action.payload
-      };
     default:
       return state;
   }

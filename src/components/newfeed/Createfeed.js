@@ -27,7 +27,7 @@ const Createfeed = () => {
                   ? "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline border border-red-500"
                   : "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               }
-              id="username"
+              id="image"
               type="text"
               placeholder="EX: Any image from unsplash"
               ref={register({
@@ -71,7 +71,7 @@ const Createfeed = () => {
           <div className="flex items-center justify-end">
             <button
               className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="button"
+              type="submit"
             >
               Create
             </button>
@@ -81,4 +81,5 @@ const Createfeed = () => {
     </Fragment>
   );
 };
+
 export default Createfeed;
