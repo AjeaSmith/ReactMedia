@@ -1,6 +1,5 @@
 const initialState = {
-  loading: false,
-  authError: null
+  loading: false
 };
 
 const newsfeedReducer = (state = initialState, action) => {
@@ -15,6 +14,7 @@ const newsfeedReducer = (state = initialState, action) => {
         ...state,
         loading: false
       };
+
     default:
       return state;
   }
