@@ -1,5 +1,6 @@
 const initialState = {
-  loading: false
+  loading: false,
+  userFeeds: []
 };
 
 const newsfeedReducer = (state = initialState, action) => {
@@ -14,7 +15,12 @@ const newsfeedReducer = (state = initialState, action) => {
         ...state,
         loading: false
       };
-
+    case "FETCH_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        userFeeds: action.payload
+      };
     default:
       return state;
   }

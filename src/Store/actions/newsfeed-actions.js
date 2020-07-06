@@ -37,3 +37,37 @@ export const createFeed = (data, username, userId) => {
   };
 };
 
+export const fetchFeeds = () => {
+  return dispatch => {
+    dispatch({ type: "LOADING" });
+    let feeds = [];
+
+    const response = db
+      .collection("newsfeed")
+      .orderBy("createdAt", "asc")
+      .get();
+    response
+      .then(data => {
+        data.forEach(doc => {
+          const newsfeed = {
+            feedId: doc.id,
+            userId: doc.data().userId,
+            photo: doc.data().photo,
+            userImage: doc.data().userImage,
+            username: doc.data().username,
+            content: doc.data().content,
+            commentCount: doc.data().commentCount,
+            createdAt: moment(doc.data().createdAt).fromNow()
+          };
+          feeds.unshift(newsfeed);
+        });
+        return dispatch({ type: "FETCH_SUCCESS", payload: feeds });
+      })
+      .then(() => {
+        dispatch({ type: "STOP_LOADING" });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
