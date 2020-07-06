@@ -1,6 +1,8 @@
 const initialState = {
   loading: false,
-  userFeeds: []
+  userFeeds: [],
+  userFeed: [],
+  comments: []
 };
 
 const newsfeedReducer = (state = initialState, action) => {
@@ -20,6 +22,18 @@ const newsfeedReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         userFeeds: action.payload
+      };
+    case "FETCH_ONE_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        userFeed: action.payload
+      };
+    case "FETCH_COMMENTS_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        comments: action.payload
       };
     default:
       return state;

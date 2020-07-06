@@ -15,7 +15,6 @@ export const createFeed = (data, username, userId) => {
     response
       .then(img => {
         // save feed data
-        newsfeed.userId = userId;
         newsfeed.username = username;
         newsfeed.photo = data.image;
         newsfeed.userImage = img;
@@ -37,6 +36,7 @@ export const createFeed = (data, username, userId) => {
   };
 };
 
+// fetch feeds
 export const fetchFeeds = () => {
   return dispatch => {
     dispatch({ type: "LOADING" });
@@ -62,6 +62,52 @@ export const fetchFeeds = () => {
           feeds.unshift(newsfeed);
         });
         return dispatch({ type: "FETCH_SUCCESS", payload: feeds });
+      })
+      .then(() => {
+        dispatch({ type: "STOP_LOADING" });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
+
+// single feed
+export const fetchSingleFeed = feedId => {
+  return dispatch => {
+    dispatch({ type: "LOADING" });
+    let feedData = {};
+    let result = [];
+    let comments = [];
+
+    const response = db.doc(`/newsfeed/${feedId}`).get();
+    response
+      .then(doc => {
+        feedData.feedId = doc.id;
+        feedData.photo = doc.data().photo;
+        feedData.content = doc.data().content;
+        feedData.username = doc.data().username;
+        feedData.userImage = doc.data().userImage;
+        feedData.commentCount = doc.data().commentCount;
+        feedData.createdAt = moment(doc.data().createdAt).fromNow();
+        return result.push(feedData);
+      })
+      .then(() => {
+        dispatch({ type: "FETCH_ONE_SUCCESS", payload: result });
+      })
+      .then(() => {
+        return db
+          .collection("comments")
+          .where("feedId", "==", feedId)
+          .get();
+      })
+      .then(data => {
+        data.forEach(doc => {
+          return comments.push(doc.data());
+        });
+      })
+      .then(() => {
+        dispatch({ type: "FETCH_COMMENTS_SUCCESS", payload: comments });
       })
       .then(() => {
         dispatch({ type: "STOP_LOADING" });

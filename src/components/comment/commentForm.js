@@ -6,7 +6,7 @@ const CommentForm = () => {
     console.log(data);
   };
   return (
-    <div class="text-center py-2">
+    <div className="text-center py-2">
       <form
         className="bg-white rounded-lg pt-2"
         onSubmit={handleSubmit(onSubmit)}

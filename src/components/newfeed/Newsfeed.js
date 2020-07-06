@@ -19,7 +19,7 @@ const Newsfeed = ({ feeds }) => {
             <div className="w-full h-auto border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
               <div className="mb-8">
                 <p className="text-sm text-gray-600 flex items-center">
-                  <Link to="/newsfeed/3">
+                  <Link to={`/newsfeed/${feed.feedId}`}>
                     <i className="far fa-eye text-green-500"></i>
                     <span className="ml-2 text-green-500">View Feed</span>
                   </Link>
@@ -30,7 +30,7 @@ const Newsfeed = ({ feeds }) => {
                 <img
                   className="w-10 h-10 rounded-full mr-4"
                   src={`${feed.userImage}`}
-                  alt="Avatar of Jonathan Reinink"
+                  alt={`Avatar of ${feed.username}`}
                 />
                 <div className="text-sm">
                   <Link to="/profile/2" className="text-green-500 leading-none">
