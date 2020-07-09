@@ -1,9 +1,14 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-const CommentForm = () => {
+import { connect } from "react-redux";
+import { commentFeed } from "../../Store/actions/newsfeed-actions";
+import jwt_decode from "jwt-decode";
+const CommentForm = ({ createComment, feedId }) => {
   const { register, handleSubmit, errors } = useForm({ mode: "onBlur" });
+  const token = jwt_decode(localStorage.getItem("token"));
+  const { displayName, uid, photoURL } = token.user;
   const onSubmit = data => {
-    console.log(data);
+    createComment(data, feedId, displayName, photoURL, uid);
   };
   return (
     <div className="text-center py-2">
@@ -45,5 +50,10 @@ const CommentForm = () => {
     </div>
   );
 };
-
-export default CommentForm;
+const mapDispatchToProps = dispatch => {
+  return {
+    createComment: (data, feedId, displayName, photoURL, uid) =>
+      dispatch(commentFeed(data, feedId, displayName, photoURL, uid))
+  };
+};
+export default connect(null, mapDispatchToProps)(CommentForm);

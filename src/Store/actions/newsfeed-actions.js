@@ -16,6 +16,7 @@ export const createFeed = (data, username, userId) => {
       .then(img => {
         // save feed data
         newsfeed.username = username;
+        newsfeed.userId = userId;
         newsfeed.photo = data.image;
         newsfeed.userImage = img;
         newsfeed.content = data.content;
@@ -86,6 +87,7 @@ export const fetchSingleFeed = feedId => {
         feedData.feedId = doc.id;
         feedData.photo = doc.data().photo;
         feedData.content = doc.data().content;
+        feedData.userId = doc.data().userId;
         feedData.username = doc.data().username;
         feedData.userImage = doc.data().userImage;
         feedData.commentCount = doc.data().commentCount;
@@ -99,18 +101,49 @@ export const fetchSingleFeed = feedId => {
         return db
           .collection("comments")
           .where("feedId", "==", feedId)
+          .orderBy("createdAt", "asc")
           .get();
       })
       .then(data => {
         data.forEach(doc => {
-          return comments.push(doc.data());
+          return comments.unshift(doc.data());
         });
-      })
-      .then(() => {
         dispatch({ type: "FETCH_COMMENTS_SUCCESS", payload: comments });
       })
       .then(() => {
         dispatch({ type: "STOP_LOADING" });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
+export const commentFeed = (body, feedId, displayName, photoURL, uid) => {
+  return dispatch => {
+    dispatch({ type: "LOADING" });
+    const newComment = {};
+    // get a feed to update comment count
+    const response = db.doc(`/newsfeed/${feedId}`).get();
+    response
+      .then(doc => {
+        return doc.ref.update({
+          commentCount: doc.data().commentCount + 1
+        });
+      })
+      .then(() => {
+        newComment.feedId = feedId;
+        newComment.body = body.body;
+        newComment.displayName = displayName;
+        newComment.photoURL = photoURL;
+        newComment.uid = uid;
+        newComment.createdAt = new Date().toString();
+        return db.collection("comments").add(newComment);
+      })
+      .then(() => {
+        dispatch({ type: "STOP_LOADING" });
+        toast.success("Comment Added!", {
+          onClose: () => (window.location.href = `/newsfeed/${feedId}`)
+        });
       })
       .catch(err => {
         console.log(err);
