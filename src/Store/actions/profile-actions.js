@@ -1,4 +1,5 @@
 import { db, auth, storage } from "../../config/fbConfig";
+import { toast } from "react-toastify";
 
 // fetch user
 export const getUser = userId => {
@@ -28,6 +29,34 @@ export const getUser = userId => {
         });
         dispatch({ type: "STOP_LOADING" });
         return dispatch({ type: "FETCH_USER_SUCCESS", payload: results });
+      });
+  };
+};
+export const updateUser = ({ updateEmail }) => {
+  return dispatch => {
+    dispatch({ type: "LOADING" });
+
+    const currentUser = auth.currentUser;
+
+    currentUser
+      .updateEmail(updateEmail)
+      .then(() => {
+        return currentUser.updateProfile({ email: updateEmail });
+      })
+      .then(() => {
+        return db.doc(`/users/${currentUser.uid}`).get();
+      })
+      .then(doc => {
+        return doc.ref.update({ email: updateEmail });
+      })
+      .then(() => {
+        toast.success("Account updated", {
+          onClose: () => (window.location.href = `/profile/${currentUser.uid}`)
+        });
+      })
+      .catch(err => {
+        toast.error("There was an error updating your account");
+        console.log(err);
       });
   };
 };
