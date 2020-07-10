@@ -118,6 +118,7 @@ export const fetchSingleFeed = feedId => {
       });
   };
 };
+// comment on feed
 export const commentFeed = (body, feedId, displayName, photoURL, uid) => {
   return dispatch => {
     dispatch({ type: "LOADING" });
@@ -147,6 +148,35 @@ export const commentFeed = (body, feedId, displayName, photoURL, uid) => {
       })
       .catch(err => {
         console.log(err);
+      });
+  };
+};
+
+// deleting a feed
+export const deleteFeed = feedId => {
+  return dispatch => {
+    const batch = db.batch();
+    const response = db.doc(`/newsfeed/${feedId}`).get();
+    response
+      .then(doc => {
+        return doc.ref.delete();
+      })
+      .then(() => {
+        return db
+          .collection("comments")
+          .where("feedId", "==", feedId)
+          .get();
+      })
+      .then(data => {
+        data.forEach(doc => {
+          batch.delete(doc.ref);
+        });
+        return batch.commit();
+      })
+      .then(() => {
+        toast.success("Deleted successfully", {
+          onClose: () => (window.location.href = "/")
+        });
       });
   };
 };

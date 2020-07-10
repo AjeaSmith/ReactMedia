@@ -33,6 +33,7 @@ const Signup = ({ isloading, signup, singuperror }) => {
                       id="image"
                       className="w-full h-32 rounded-full"
                       src={value}
+                      alt="user"
                     />
                   </div>
 

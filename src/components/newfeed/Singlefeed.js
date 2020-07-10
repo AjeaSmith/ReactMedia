@@ -1,15 +1,30 @@
 import React, { Fragment, useEffect } from "react";
 import CommentForm from "../comment/commentForm";
 import { connect } from "react-redux";
-import { fetchSingleFeed } from "../../Store/actions/newsfeed-actions";
+import {
+  fetchSingleFeed,
+  deleteFeed
+} from "../../Store/actions/newsfeed-actions";
 import LoadingSpinner from "../spinner/LoadingSpinner";
+import jwt_decode from "jwt-decode";
 import moment from "moment";
-const Singlefeed = ({ match, getFeed, feed, isloading, comments }) => {
-  const token = localStorage.getItem("token");
+const Singlefeed = ({
+  match,
+  getFeed,
+  feed,
+  isloading,
+  comments,
+  deleteFeed
+}) => {
+  const token = jwt_decode(localStorage.getItem("token"));
+  const { uid } = token.user;
   const { id } = match.params;
   useEffect(() => {
     getFeed(id);
   }, [id]);
+  const deletefeed = () => {
+    deleteFeed(id);
+  };
   return (
     <Fragment>
       {isloading ? (
@@ -52,8 +67,16 @@ const Singlefeed = ({ match, getFeed, feed, isloading, comments }) => {
                       alt=""
                     />
                   </div>
-                  <div className="py-2">
+                  <div className="py-2 flex justify-between items-center">
                     <p className="leading-snug">{post.content}</p>
+                    {token && uid === post.userId ? (
+                      <button
+                        onClick={deletefeed}
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                      >
+                        Delete Feed
+                      </button>
+                    ) : null}
                   </div>
                 </div>
               );
@@ -64,17 +87,17 @@ const Singlefeed = ({ match, getFeed, feed, isloading, comments }) => {
             <div className="divide-y divide-gray-400">
               {!token ? (
                 <div
-                  class="flex items-center bg-teal-200 border border-teal-300 text-teal-500 pl-4 pr-8 py-3 rounded"
+                  className="flex items-center bg-teal-200 border border-teal-300 text-teal-500 pl-4 pr-8 py-3 rounded"
                   role="alert"
                 >
                   <svg
-                    class="h-6 w-6 text-teal mr-4 fill-current"
+                    className="h-6 w-6 text-teal mr-4 fill-current"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                   >
                     <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
                   </svg>
-                  <span class="block sm:inline">
+                  <span className="block sm:inline">
                     Login or signup to leave a comment
                   </span>
                 </div>
@@ -86,9 +109,12 @@ const Singlefeed = ({ match, getFeed, feed, isloading, comments }) => {
                 {!comments.length ? (
                   <p>No comments</p>
                 ) : (
-                  comments.map(comment => {
+                  comments.map((comment, i) => {
                     return (
-                      <div className="flex bg-white shadow-lg rounded-lg mb-3">
+                      <div
+                        className="flex bg-white shadow-lg rounded-lg mb-3"
+                        key={i}
+                      >
                         <div className="flex items-start px-4 py-6 w-full">
                           <img
                             className="w-12 h-12 rounded-full object-cover mr-4 shadow"
@@ -130,7 +156,8 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    getFeed: id => dispatch(fetchSingleFeed(id))
+    getFeed: id => dispatch(fetchSingleFeed(id)),
+    deleteFeed: feedId => dispatch(deleteFeed(feedId))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Singlefeed);
