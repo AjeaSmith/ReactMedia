@@ -8,6 +8,7 @@ import {
 import LoadingSpinner from "../spinner/LoadingSpinner";
 import jwt_decode from "jwt-decode";
 import moment from "moment";
+import { Link } from "react-router-dom";
 const Singlefeed = ({
   match,
   getFeed,
@@ -40,7 +41,7 @@ const Singlefeed = ({
                 >
                   <div className="py-2 flex flex-row items-center justify-between">
                     <div className="flex flex-row items-center">
-                      <a
+                      <p
                         href="#"
                         className="flex flex-row items-center focus:outline-none focus:shadow-outline rounded-lg"
                       >
@@ -49,10 +50,13 @@ const Singlefeed = ({
                           src={`${post.userImage}`}
                           alt={`${post.userImage}`}
                         />
-                        <p className="ml-2 text-base text-green-500 font-medium">
+                        <Link
+                          to={`/profile/${post.userId}`}
+                          className="ml-2 text-base text-green-500 font-medium"
+                        >
                           {post.username}
-                        </p>
-                      </a>
+                        </Link>
+                      </p>
                     </div>
                     <div className="flex flex-row items-center">
                       <p className="text-xs font-semibold text-gray-500">
@@ -124,7 +128,9 @@ const Singlefeed = ({
                           <div className="w-full">
                             <div className="flex items-center justify-between">
                               <h2 className="text-lg font-semibold text-green-500">
-                                {comment.displayName}
+                                <Link to={`/profile/${comment.uid}`}>
+                                  {comment.displayName}
+                                </Link>
                               </h2>
                               <small className="text-sm text-gray-700">
                                 {moment(comment.createdAt).fromNow()}

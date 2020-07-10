@@ -1,6 +1,7 @@
 const initialState = {
   loading: false,
-  authError: null
+  authError: null,
+  user: []
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -15,11 +16,10 @@ const profileReducer = (state = initialState, action) => {
         ...state,
         loading: false
       };
-    case "AUTHERROR":
+    case "FETCH_USER_SUCCESS":
       return {
         ...state,
-        loading: false,
-        authError: action.payload
+        user: [action.payload, ...state.user]
       };
     default:
       return state;

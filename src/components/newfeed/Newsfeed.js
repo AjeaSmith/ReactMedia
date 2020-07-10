@@ -33,7 +33,10 @@ const Newsfeed = ({ feeds }) => {
                   alt={`Avatar of ${feed.username}`}
                 />
                 <div className="text-sm">
-                  <Link to="/profile/2" className="text-green-500 leading-none">
+                  <Link
+                    to={`/profile/${feed.userId}`}
+                    className="text-green-500 leading-none"
+                  >
                     {feed.username}
                   </Link>
                   <p className="text-gray-600">
