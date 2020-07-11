@@ -1,18 +1,33 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { connect } from "react-redux";
-import { getUser, updateUser } from "../../Store/actions/profile-actions";
+import {
+  getUser,
+  updateUser,
+  deleteUser
+} from "../../Store/actions/profile-actions";
 import { Link } from "react-router-dom";
 import LoadingSpinner from "../spinner/LoadingSpinner";
 import jwt_decode from "jwt-decode";
-const Profile = ({ match, getUser, isloading, user, updateuser }) => {
+const Profile = ({
+  match,
+  getUser,
+  isloading,
+  user,
+  updateuser,
+  deleteuser
+}) => {
   const { register, handleSubmit, errors } = useForm({ mode: "onBlur" });
+  const [open, setOpen] = useState(false);
   const onSubmit = data => {
     updateuser(data);
   };
   const { id } = match.params;
   const token = jwt_decode(localStorage.getItem("token"));
   const { uid } = token.user;
+  const deletingUser = () => {
+    deleteuser(uid);
+  };
   useEffect(() => {
     getUser(id);
   }, [id]);
@@ -98,16 +113,73 @@ const Profile = ({ match, getUser, isloading, user, updateuser }) => {
                             </div>
                           </div>
                           <div>
+                            {open ? (
+                              <>
+                                <div
+                                  className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+                                  onClick={() => setOpen(false)}
+                                >
+                                  <div className="relative w-auto my-6 mx-auto max-w-sm">
+                                    <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                                      <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t">
+                                        <h3 className="text-3xl font-semibold">
+                                          Delete Account
+                                        </h3>
+                                        <button
+                                          className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                                          onClick={() => setOpen(false)}
+                                        >
+                                          <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                                            ×
+                                          </span>
+                                        </button>
+                                      </div>
+                                      <div className="relative p-6 flex-auto">
+                                        <p className="my-4 text-gray-600 text-lg leading-relaxed">
+                                          Are you sure you want to remove this
+                                          account, info will be erased forever!
+                                        </p>
+                                      </div>
+
+                                      <div className="flex items-center justify-end p-6 border-t border-solid border-gray-300 rounded-b">
+                                        <button
+                                          className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
+                                          type="button"
+                                          style={{
+                                            transition: "all .15s ease"
+                                          }}
+                                          onClick={() => setOpen(false)}
+                                        >
+                                          Close
+                                        </button>
+                                        <button
+                                          className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                          type="button"
+                                          style={{
+                                            transition: "all .15s ease"
+                                          }}
+                                          onClick={deletingUser}
+                                        >
+                                          Save
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                              </>
+                            ) : null}
                             <div className="flex justify-between">
                               <button
                                 className="shadow bg-green-500 hover:bg-green-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-                                type="submit"
+                                type="button"
                               >
                                 Update
                               </button>
                               <button
                                 className="shadow bg-red-500 hover:bg-red-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
                                 type="button"
+                                onClick={() => setOpen(true)}
                               >
                                 Delete Account
                               </button>
@@ -178,7 +250,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getUser: id => dispatch(getUser(id)),
-    updateuser: email => dispatch(updateUser(email))
+    updateuser: email => dispatch(updateUser(email)),
+    deleteuser: uid => dispatch(deleteUser(uid))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

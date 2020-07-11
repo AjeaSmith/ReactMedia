@@ -62,7 +62,7 @@ const Navbar = ({ signout }) => {
               <i className="fas fa-plus"></i>
             </Link>
             <Link
-              to="/profile/2"
+              to={`/profile/${user.user.uid}`}
               className="mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-gray-800 sm:mt-0 sm:ml-2"
             >
               Welcome, {user.user.displayName}!

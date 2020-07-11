@@ -6,7 +6,7 @@ import LoadingSpinner from "../spinner/LoadingSpinner";
 const Home = ({ getFeeds, isloading, feeds }) => {
   useEffect(() => {
     getFeeds();
-  }, []);
+  }, [getFeeds]);
   return (
     <Fragment>
       <h2 className="text-2xl ml-6 my-3">Latest Feeds</h2>
@@ -15,7 +15,6 @@ const Home = ({ getFeeds, isloading, feeds }) => {
   );
 };
 const mapStateToProps = state => {
-  console.log(state);
   return {
     isloading: state.news.loading,
     feeds: state.news.userFeeds

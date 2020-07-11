@@ -17,14 +17,18 @@ const Singlefeed = ({
   comments,
   deleteFeed
 }) => {
-  const token = jwt_decode(localStorage.getItem("token"));
-  const { uid } = token.user;
-  const { id } = match.params;
+  const token = localStorage.getItem("token");
+  let user;
+  if (token) {
+    user = jwt_decode(token);
+  }
+  // const { uid } = token.user;
+  // const { id } = match.params;
   useEffect(() => {
-    getFeed(id);
-  }, [id]);
+    getFeed(match.params.id);
+  }, [match.params.id]);
   const deletefeed = () => {
-    deleteFeed(id);
+    deleteFeed(match.params.id);
   };
   return (
     <Fragment>
@@ -73,7 +77,7 @@ const Singlefeed = ({
                   </div>
                   <div className="py-2 flex justify-between items-center">
                     <p className="leading-snug">{post.content}</p>
-                    {token && uid === post.userId ? (
+                    {user && user.user.uid === post.userId ? (
                       <button
                         onClick={deletefeed}
                         className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
@@ -89,7 +93,7 @@ const Singlefeed = ({
 
           <div className="w-full sm:w-1/2 px-6">
             <div className="divide-y divide-gray-400">
-              {!token ? (
+              {!user ? (
                 <div
                   className="flex items-center bg-teal-200 border border-teal-300 text-teal-500 pl-4 pr-8 py-3 rounded"
                   role="alert"
@@ -106,7 +110,7 @@ const Singlefeed = ({
                   </span>
                 </div>
               ) : (
-                <CommentForm feedId={id} />
+                <CommentForm feedId={match.params.id} />
               )}
 
               <div className="py-2">
