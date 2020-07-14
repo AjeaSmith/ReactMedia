@@ -9,7 +9,12 @@ const Home = ({ getFeeds, isloading, feeds }) => {
   }, [getFeeds]);
   return (
     <Fragment>
-      <h2 className="text-2xl ml-6 my-3">Latest Feeds</h2>
+      {!feeds.length ? (
+        <h2 className="text-2xl ml-6 my-3">No Feeds</h2>
+      ) : (
+        <h2 className="text-2xl ml-6 my-3">Latest Feeds</h2>
+      )}
+
       {isloading ? <LoadingSpinner /> : <Newsfeed feeds={feeds} />}
     </Fragment>
   );

@@ -23,10 +23,13 @@ const Profile = ({
     updateuser(data);
   };
   const { id } = match.params;
-  const token = jwt_decode(localStorage.getItem("token"));
-  const { uid } = token.user;
+  const token = localStorage.getItem("token");
+  let userData;
+  if (token) {
+    userData = jwt_decode(token);
+  }
   const deletingUser = () => {
-    deleteuser(uid);
+    deleteuser(id);
   };
   useEffect(() => {
     getUser(id);
@@ -57,7 +60,7 @@ const Profile = ({
                   </div>
                 </div>
                 <div className="mx-6 mt-6 md:mx-32 divide-y divide-gray-200">
-                  {token && uid === id ? (
+                  {token && userData.user.uid === id ? (
                     <>
                       {" "}
                       <div className="text-center py-2">
@@ -210,9 +213,12 @@ const Profile = ({
                                 </p>
                               </div>
                               <div className="flex justify-between items-center mt-4">
-                                <a className="text-blue-600 hover:underline">
+                                <Link
+                                  to={`/newsfeed/${profile.feedId}`}
+                                  className="text-blue-600 hover:underline"
+                                >
                                   Read more
-                                </a>
+                                </Link>
                                 <div>
                                   <a className="flex items-center" href="#">
                                     <img
